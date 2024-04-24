@@ -1,7 +1,16 @@
-import { Input } from "@nextui-org/react";
+"use client";
+
 import React from "react";
+import Eye from "@/icons/Eye";
+import EyeSlash from "@/icons/EyeSlash";
+import { Input } from "@nextui-org/react";
 
 export default function InputField(props: any) {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  const isPasswordVisible = props?.type === "password" && isVisible;
+  const isPasswordInput = props?.type === "password";
+
   return (
     <Input
       variant="bordered"
@@ -12,6 +21,28 @@ export default function InputField(props: any) {
         input: "h-auto",
       }}
       {...props}
+      type={
+        isPasswordInput && !isPasswordVisible
+          ? "password"
+          : isPasswordInput && isPasswordVisible
+          ? "text"
+          : props?.type
+      }
+      endContent={
+        props.showTogglePasswordVisibility && (
+          <button
+            className="focus:outline-none"
+            type="button"
+            onClick={() => setIsVisible(!isVisible)}
+          >
+            {isVisible ? (
+              <EyeSlash className="text-xl text-default-400 pointer-events-none" />
+            ) : (
+              <Eye className="text-xl text-default-400 pointer-events-none" />
+            )}
+          </button>
+        )
+      }
     ></Input>
   );
 }
