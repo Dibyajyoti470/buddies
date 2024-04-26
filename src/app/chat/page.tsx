@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import "./Chat.scss";
 import Logo from "/public/logo.svg";
+import { auth } from "@/firebase/config";
+import Chats from "@/components/Chats/Chats";
 
 export default function Chat() {
   const [progress, setProgress] = useState(0);
@@ -15,7 +17,7 @@ export default function Chat() {
         const nextProgress = prevProgress + increment;
         return nextProgress <= 100 ? nextProgress : 100;
       });
-    }, 200);
+    }, 100);
 
     return () => clearInterval(interval);
   }, []);
@@ -33,7 +35,14 @@ export default function Chat() {
           </div>
         </div>
       ) : (
-        <p>Chat</p>
+        <div className="grid grid-cols-[2fr_10fr]">
+          <section className="p-4">
+            <Chats auth={auth} />
+          </section>
+          <section>
+            <span>Chat</span>
+          </section>
+        </div>
       )}
     </>
   );

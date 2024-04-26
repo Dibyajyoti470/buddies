@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Eye from "@/icons/Eye";
-import EyeSlash from "@/icons/EyeSlash";
+import Eye from "@/assets/icons/Eye";
+import EyeSlash from "@/assets/icons/EyeSlash";
 import { Input } from "@nextui-org/react";
 
 export default function InputField(props: any) {
