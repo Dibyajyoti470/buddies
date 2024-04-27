@@ -1,6 +1,6 @@
 "use client";
 
-import InputField from "@/components/InputField/InputField";
+import InputField from "@/components/InputField";
 import { auth, db } from "@/firebase/config";
 import { Button, Checkbox } from "@nextui-org/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";

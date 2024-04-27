@@ -4,7 +4,7 @@ import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import { Button } from "@nextui-org/button";
 import { Checkbox } from "@nextui-org/react";
-import InputField from "@/components/InputField/InputField";
+import InputField from "@/components/InputField";
 import { auth } from "@/firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
