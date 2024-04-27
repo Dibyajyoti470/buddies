@@ -17,7 +17,7 @@ export function formatPastTime(time: string): string {
   } else if (diffDays === 1) {
     return "Yesterday";
   } else if (diffDays < 7) {
-    return date.toLocaleDateString("en-US", { weekday: "long" });
+    return date.toLocaleDateString("en-US", { weekday: "short" });
   } else {
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   }

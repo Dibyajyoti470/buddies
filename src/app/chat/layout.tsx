@@ -5,9 +5,5 @@ export default function ChatLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <main className="w-full max-w-[1400px] h-screen flex justify-center items-center">
-      {children}
-    </main>
-  );
+  return <main className="bg-white">{children}</main>;
 }

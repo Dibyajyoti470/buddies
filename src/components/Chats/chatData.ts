@@ -19,7 +19,7 @@ export const chatData: ChatProps[] = [
     name: "John Doe",
     lastMessage: "Sure, let's decide on a suitable time after lunch.",
     lastChatTime: "2024-04-26T10:41:00",
-    unreadMessageCount: 2,
+    unreadMessageCount: 0,
   },
   {
     id: "2",

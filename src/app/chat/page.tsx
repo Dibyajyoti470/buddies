@@ -25,7 +25,7 @@ export default function Chat() {
   return (
     <>
       {progress !== 100 ? (
-        <div className="flex flex-col justify-center items-center gap-6">
+        <div className="w-screen h-screen flex flex-col justify-center items-center gap-6">
           <Logo className="w-8 h-8 logo animate-spin" />
           <div className="flex w-[200px] h-1 bg-gray-200 rounded-md overflow-hidden">
             <div
@@ -35,11 +35,15 @@ export default function Chat() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-[2fr_10fr]">
-          <section className="p-4">
+        <div className="w-screen h-screen grid grid-cols-[2fr_10fr]">
+          <section className="flex flex-col gap-6 w-96 p-6 border-r-1 border-gray-100">
+            <p className="flex items-center gap-2 font-semibold text-primary-500">
+              <Logo className="w-5 h-5" />
+              <span>Buddies</span>
+            </p>
             <Chats auth={auth} />
           </section>
-          <section>
+          <section className="p-6">
             <span>Chat</span>
           </section>
         </div>

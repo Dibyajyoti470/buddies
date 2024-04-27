@@ -18,26 +18,27 @@ function Chat(props: ChatProps) {
   return (
     <div className="flex gap-4">
       <Avatar imageUrl={profileImageUrl} isOnline={isOnline} />
-      <div className="flex flex-col justify-center gap-1">
-        <div className="flex justify-between items-center">
-          <span className="font-semibold">{name}</span>
-          <span className="text-sm text-gray-600">{lastChatTime}</span>
+      <div className="flex flex-col flex-1 justify-center gap-1 truncate">
+        <div className="flex justify-between gap-2 leading-tight">
+          <span className="font-semibold truncate">{name}</span>
+          <span className="text-xs font-medium text-gray-500">
+            {lastChatTime}
+          </span>
         </div>
-        <div className="w-full flex justify-between items-center">
+        <div className="w-full flex gap-1 items-center leading-tight">
+          {unreadMessageCount > 0 ? (
+            <></>
+          ) : (
+            <DoubleCheck className="w-4 h-4 text-gray-500" />
+          )}
           {isTyping ? (
-            <span className="text-sm text-green-600">
+            <span className="text-sm font-semibold text-green-600">
               {name.split(" ")[0]} is typing...{" "}
             </span>
           ) : (
-            <span className="text-sm w-full truncate">{lastMessage}</span>
-          )}
-          {unreadMessageCount > 0 ? (
-            // <div className="w-6 h-6 flex justify-center items-center text-white font-semibold bg-primary-500 rounded-full">
-            //   {unreadMessageCount}
-            // </div>
-            <span></span>
-          ) : (
-            <DoubleCheck className="w-5 h-5" />
+            <span className="w-[90%] text-sm text-gray-500 font-medium truncate">
+              {lastMessage}
+            </span>
           )}
         </div>
       </div>
