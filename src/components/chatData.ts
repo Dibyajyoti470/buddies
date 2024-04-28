@@ -1,3 +1,5 @@
+import { mimeTypes } from "@/constants/const";
+
 export interface UserData {
   id: string;
   name: string;
@@ -16,7 +18,7 @@ export interface ChatProps extends UserData {
   unreadMessageCount: number;
 }
 
-export const chatData: UserData[] = [
+export const chatList: UserData[] = [
   {
     id: "1",
     profileImageUrl:
@@ -115,5 +117,98 @@ export const chatData: UserData[] = [
     lastMessage: "I'm looking forward to it!",
     lastChatTime: "2024-04-26T08:55:00",
     unreadMessageCount: 0,
+  },
+];
+
+interface Emoji {
+  code: string;
+  senderId: string;
+}
+interface Media {
+  mimeType: (typeof mimeTypes)[keyof typeof mimeTypes];
+  url: string;
+}
+
+export interface Message {
+  id: string;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
+  senderId: string;
+  emojies?: Emoji[];
+  media?: Media;
+}
+
+export const chat: Message[] = [
+  {
+    id: "1",
+    text: "Hey there!",
+    createdAt: "2024-04-28T10:00:00Z",
+    updatedAt: "2024-04-28T10:00:00Z",
+    senderId: "user-1",
+  },
+  {
+    id: "2",
+    text: "Hi!",
+    createdAt: "2024-04-28T10:01:00Z",
+    updatedAt: "2024-04-28T10:01:00Z",
+    senderId: "current-user",
+  },
+  {
+    id: "3",
+    text: "How are you?",
+    createdAt: "2024-04-28T10:02:00Z",
+    updatedAt: "2024-04-28T10:02:00Z",
+    senderId: "user-1",
+    emojies: [{ code: "😊", senderId: "user-1" }],
+  },
+  {
+    id: "4",
+    text: "I'm good, thanks!",
+    createdAt: "2024-04-28T10:03:00Z",
+    updatedAt: "2024-04-28T10:03:00Z",
+    senderId: "current-user",
+  },
+  {
+    id: "5",
+    text: "Do you have any plans for the weekend?",
+    createdAt: "2024-04-28T10:04:00Z",
+    updatedAt: "2024-04-28T10:04:00Z",
+    senderId: "user-1",
+  },
+  {
+    id: "6",
+    text: "Not yet, but I'm thinking of going hiking.",
+    createdAt: "2024-04-28T10:05:00Z",
+    updatedAt: "2024-04-28T10:05:00Z",
+    senderId: "current-user",
+  },
+  {
+    id: "7",
+    text: "That sounds fun!",
+    createdAt: "2024-04-28T10:06:00Z",
+    updatedAt: "2024-04-28T10:06:00Z",
+    senderId: "user-1",
+  },
+  {
+    id: "8",
+    text: "Yeah, I'm looking forward to it.",
+    createdAt: "2024-04-28T10:07:00Z",
+    updatedAt: "2024-04-28T10:07:00Z",
+    senderId: "current-user",
+  },
+  {
+    id: "9",
+    text: "By the way, did you finish reading that book?",
+    createdAt: "2024-04-28T10:08:00Z",
+    updatedAt: "2024-04-28T10:08:00Z",
+    senderId: "user-1",
+  },
+  {
+    id: "10",
+    text: "Not yet, but I'm halfway through.",
+    createdAt: "2024-04-28T10:09:00Z",
+    updatedAt: "2024-04-28T10:09:00Z",
+    senderId: "current-user",
   },
 ];

@@ -1,14 +1,14 @@
 import React from "react";
 import User from "./User";
 import { Auth } from "firebase/auth";
-import { ChatProps, UserData, chatData } from "./chatData";
+import { ChatProps, UserData, chatList } from "./chatData";
 import { formatPastTime } from "@/utils/utils";
 import { locations } from "@/constants/const";
 
 export default function Chats({ auth }: { auth: Auth }) {
   return (
     <div className="w-full flex flex-col gap-6 p-6">
-      {chatData.map((chat: UserData) => (
+      {chatList.map((chat: UserData) => (
         <User
           key={chat.id}
           id={chat.id}
