@@ -20,16 +20,8 @@ export default function InputField(props: any) {
         inputWrapper: "border",
         input: "h-auto",
       }}
-      {...props}
-      type={
-        isPasswordInput && !isPasswordVisible
-          ? "password"
-          : isPasswordInput && isPasswordVisible
-          ? "text"
-          : props?.type
-      }
       endContent={
-        props.showTogglePasswordVisibility && (
+        props?.showTogglePasswordVisibility && (
           <button
             className="focus:outline-none"
             type="button"
@@ -42,6 +34,14 @@ export default function InputField(props: any) {
             )}
           </button>
         )
+      }
+      {...props}
+      type={
+        isPasswordInput && !isPasswordVisible
+          ? "password"
+          : isPasswordInput && isPasswordVisible
+          ? "text"
+          : props?.type
       }
     ></Input>
   );

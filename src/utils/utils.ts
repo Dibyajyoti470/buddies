@@ -1,3 +1,7 @@
+import clsx from "clsx";
+import { ClassValue } from "clsx";
+import { twMerge } from "tw-merge";
+
 export function formatPastTime(time: string): string {
   const today = new Date();
   const date = new Date(time);
@@ -21,4 +25,8 @@ export function formatPastTime(time: string): string {
   } else {
     return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
   }
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }

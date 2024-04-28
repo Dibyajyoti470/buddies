@@ -15,10 +15,16 @@ export default function Sidebar() {
           <span className="text-base">Buddies</span>
         </p>
         <div className="flex items-center">
-          <Button isIconOnly variant="light" size="sm">
+          <Button isIconOnly disableRipple variant="light" size="sm">
             <Search className="w-4 h-4 text-gray-600" />
           </Button>
-          <Button isIconOnly variant="light" size="sm" className="-mr-3">
+          <Button
+            isIconOnly
+            disableRipple
+            variant="light"
+            size="sm"
+            className="-mr-3"
+          >
             <EllipsisVertical className="w-4 h-4 fill-gray-600" />
           </Button>
         </div>
