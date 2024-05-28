@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@nextui-org/button";
 import { Checkbox } from "@nextui-org/react";
 import InputField from "@/components/InputField";
-import { auth } from "@/firebase/config";
+import { auth } from "@/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
@@ -37,8 +37,8 @@ export default function Login() {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold">Welcome</h1>
-      <form className="flex flex-col gap-5" onSubmit={handleLogin}>
+      <h1 className="text-2xl font-semibold">Welcome</h1>
+      <form className="flex flex-col gap-5 mt-3" onSubmit={handleLogin}>
         <InputField
           isRequired
           type="email"

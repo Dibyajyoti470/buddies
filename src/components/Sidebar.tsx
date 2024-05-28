@@ -1,6 +1,6 @@
 import React from "react";
 import Chats from "@/components/Chats";
-import { auth } from "@/firebase/config";
+import { auth } from "@/firebase";
 import { Button } from "@nextui-org/react";
 import EllipsisVertical from "@/assets/icons/EllipsisVertical";
 import Logo from "@/assets/icons/Logo";

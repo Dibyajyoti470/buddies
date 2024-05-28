@@ -1,7 +1,7 @@
 "use client";
 
 import InputField from "@/components/InputField";
-import { auth, db } from "@/firebase/config";
+import { auth, db } from "@/firebase";
 import { Button, Checkbox } from "@nextui-org/react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -11,7 +11,7 @@ import React, { FormEvent, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function CreateAccount() {
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -24,21 +24,21 @@ export default function CreateAccount() {
     setIsLoading(true);
 
     try {
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      // const userCredentials = await createUserWithEmailAndPassword(
+      //   auth,
+      //   email,
+      //   password
+      // );
 
-      await setDoc(doc(db, "users", userCredentials.user.uid), {
-        id: userCredentials.user.uid,
-        name: username,
-        email,
-        blocked: [],
-      });
+      // await setDoc(doc(db, "users", userCredentials.user.uid), {
+      //   id: userCredentials.user.uid,
+      //   name: username,
+      //   email,
+      //   blocked: [],
+      // });
 
-      notify("Your account has been successfully created.");
-      router.push("/auth/login");
+      // notify("Your account has been successfully created.");
+      router.push("/setup-profile/123abc");
     } catch (error) {
       console.log(error);
       notify("Something went wrong! Please try again later.");
@@ -49,9 +49,9 @@ export default function CreateAccount() {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold">Create account</h1>
-      <form className="flex flex-col gap-5" onSubmit={handleCreateAccount}>
-        <InputField
+      <h1 className="text-2xl font-semibold">Create account</h1>
+      <form className="flex flex-col gap-5 mt-3" onSubmit={handleCreateAccount}>
+        {/* <InputField
           isRequired
           type="text"
           label="Name"
@@ -61,7 +61,7 @@ export default function CreateAccount() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUsername(e.target.value)
           }
-        ></InputField>
+        ></InputField> */}
         <InputField
           isRequired
           type="email"

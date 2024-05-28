@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "./Avatar";
 import User from "./User";
-import { locations } from "@/constants/const";
+import { locations } from "@/constants";
 
 export default function ChatAreaHeader() {
   const selectedUser = {

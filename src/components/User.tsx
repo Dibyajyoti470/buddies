@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "./Avatar";
 import { UserData } from "./chatData";
-import { locations } from "@/constants/const";
+import { locations } from "@/constants";
 import DoubleCheck from "@/assets/icons/DoubleCheck";
 
 interface UserComponentProps extends UserData {

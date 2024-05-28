@@ -1,9 +1,8 @@
 import React from "react";
-import Emoji from "@/assets/icons/Emoji";
-import Send from "@/assets/icons/Send";
+import { Emoji, Send } from "@/assets/icons";
 import TextareaField from "./TextareaField";
 import { Message, chat } from "./chatData";
-import { cn } from "@/utils/utils";
+import { cn } from "@/utils";
 
 export default function ChatAreaMain() {
   const renderMessage = (message: Message): React.JSX.Element => {

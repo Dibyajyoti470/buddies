@@ -2,8 +2,8 @@ import React from "react";
 import User from "./User";
 import { Auth } from "firebase/auth";
 import { ChatProps, UserData, chatList } from "./chatData";
-import { formatPastTime } from "@/utils/utils";
-import { locations } from "@/constants/const";
+import { formatPastTime } from "@/utils";
+import { locations } from "@/constants";
 
 export default function Chats({ auth }: { auth: Auth }) {
   return (

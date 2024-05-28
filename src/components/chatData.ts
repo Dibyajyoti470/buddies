@@ -1,4 +1,4 @@
-import { mimeTypes } from "@/constants/const";
+import { mimeTypes } from "@/constants";
 
 export interface UserData {
   id: string;

@@ -2,7 +2,7 @@ import React from "react";
 
 interface AvatarProps {
   imageUrl?: string;
-  isActive: boolean;
+  isActive?: boolean;
 }
 
 export default function Avatar(props: AvatarProps) {
