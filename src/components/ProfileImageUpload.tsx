@@ -1,20 +1,26 @@
 "use client";
 
-import Edit from "@/assets/icons/Edit";
 import React, { useRef, useState } from "react";
+import { useDisclosure } from "@nextui-org/react";
 import IconButton from "./IconButton";
+import Edit from "@/assets/icons/Edit";
+import ProfileImageCropper from "./ProfileImageCropper";
+import "./ProfileImageUpload.scss";
 
 export default function ProfileImageUpload() {
-  const [image, setImage] = useState(
-    "https://images.unsplash.com/photo-1521119989659-a83eee488004?q=80&w=1923&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  );
+  const [image, setImage] = useState<string | null>(null);
   const profileUploadRef = useRef<HTMLInputElement>(null);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const profilePlaceholderImage = "/profile-placeholder.jpg";
 
   const handleProfileImageChosen = () => {
     const files = profileUploadRef?.current?.files;
 
     if (files && files.length) {
-      console.log(files[0]);
+      const url = URL.createObjectURL(files[0]);
+      setImage(url);
+      onOpen();
     }
   };
 
@@ -23,7 +29,7 @@ export default function ProfileImageUpload() {
       <div className="w-28 h-28 rounded-full overflow-hidden">
         <img
           className="w-full h-full object-cover"
-          src="/profile-placeholder.jpg"
+          src={image || profilePlaceholderImage}
           alt="Avatar Image"
         />
       </div>
@@ -43,6 +49,12 @@ export default function ProfileImageUpload() {
           <Edit className="w-3 h-3" />
         </IconButton>
       </div>
+      <ProfileImageCropper
+        image={image || ""}
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onOpenChange={onOpenChange}
+      />
     </div>
   );
 }
