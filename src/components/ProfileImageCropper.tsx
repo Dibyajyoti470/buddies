@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Button,
   Modal,
@@ -17,14 +17,35 @@ interface ProfileImageCropperProps {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: (isOpen: boolean) => void;
+  setImage: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function ProfileImageCropper(props: ProfileImageCropperProps) {
-  const defaultScale = 1.5;
+  const defaultScale = 1;
   const [scale, setScale] = useState<number>(defaultScale);
+
+  const editorRef = useRef<AvatarEditor | null>(null);
 
   const handleSliderChange = (value: number) => {
     setScale(value);
+  };
+
+  const handleCropConfirm = (onClose: () => void) => {
+    if (editorRef.current) {
+      // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
+      // drawn on another canvas, or added to the DOM.
+      // const canvas = editorRef.current.getImage();
+      // const base64Image = canvas.toDataURL();
+
+      // If you want the image resized to the canvas size (also a HTMLCanvasElement)
+      const canvasScaled = editorRef.current.getImageScaledToCanvas();
+      const base64Image = canvasScaled.toDataURL();
+      console.log(base64Image);
+
+      props.setImage(base64Image);
+      onClose();
+      // props.onClose(base64Image);
+    }
   };
 
   return (
@@ -42,10 +63,11 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
         {(onClose) => (
           <>
             <ModalHeader className="flex flex-col gap-1">
-              Crop image
+              Edit profile image
             </ModalHeader>
             <ModalBody>
               <AvatarEditor
+                ref={editorRef}
                 image={props.image}
                 width={400}
                 height={400}
@@ -65,24 +87,35 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                 onChange={(e) => handleSliderChange(e as number)}
               />
             </ModalBody>
-            <ModalFooter>
+            <ModalFooter className="justify-between">
               <Button
+                className="border-1"
                 color="primary"
-                variant="light"
+                variant="ghost"
                 disableRipple
                 radius="sm"
-                onPress={onClose}
               >
-                Cancel
+                Upload new
               </Button>
-              <Button
-                color="primary"
-                disableRipple
-                radius="sm"
-                onPress={onClose}
-              >
-                Confirm
-              </Button>
+              <div className="flex flex-row items-center gap-2">
+                <Button
+                  color="primary"
+                  variant="light"
+                  disableRipple
+                  radius="sm"
+                  onPress={onClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="primary"
+                  disableRipple
+                  radius="sm"
+                  onPress={() => handleCropConfirm(onClose)}
+                >
+                  Confirm
+                </Button>
+              </div>
             </ModalFooter>
           </>
         )}

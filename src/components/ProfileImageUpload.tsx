@@ -10,7 +10,7 @@ import "./ProfileImageUpload.scss";
 export default function ProfileImageUpload() {
   const [image, setImage] = useState<string | null>(null);
   const profileUploadRef = useRef<HTMLInputElement>(null);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
 
   const profilePlaceholderImage = "/profile-placeholder.jpg";
 
@@ -23,6 +23,10 @@ export default function ProfileImageUpload() {
       onOpen();
     }
   };
+
+  // const handleModalClose = (image: string) => {
+  //   setImage(image);
+  // };
 
   return (
     <div className="relative w-fit">
@@ -54,6 +58,7 @@ export default function ProfileImageUpload() {
         isOpen={isOpen}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
+        setImage={setImage}
       />
     </div>
   );
