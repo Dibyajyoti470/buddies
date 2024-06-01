@@ -11,6 +11,7 @@ import {
   Slider,
 } from "@nextui-org/react";
 import AvatarEditor from "react-avatar-editor";
+import UploadImage from "@/assets/icons/UploadImage";
 
 interface ProfileImageCropperProps {
   image: string;
@@ -77,6 +78,9 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                 rotate={0}
               />
               <Slider
+                classNames={{
+                  thumb: "bg-primary-500",
+                }}
                 size="sm"
                 step={0.01}
                 maxValue={2}
@@ -91,16 +95,16 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
               <Button
                 className="border-1"
                 color="primary"
-                variant="ghost"
+                variant="bordered"
                 disableRipple
                 radius="sm"
               >
+                <UploadImage className="w-5 h-5" />
                 Upload new
               </Button>
               <div className="flex flex-row items-center gap-2">
                 <Button
-                  color="primary"
-                  variant="light"
+                  variant="flat"
                   disableRipple
                   radius="sm"
                   onPress={onClose}

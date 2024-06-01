@@ -6,6 +6,8 @@ import IconButton from "./IconButton";
 import Edit from "@/assets/icons/Edit";
 import ProfileImageCropper from "./ProfileImageCropper";
 import "./ProfileImageUpload.scss";
+import Camera from "@/assets/icons/Camera";
+import UploadImage from "@/assets/icons/UploadImage";
 
 export default function ProfileImageUpload() {
   const [image, setImage] = useState<string | null>(null);
@@ -30,7 +32,7 @@ export default function ProfileImageUpload() {
 
   return (
     <div className="relative w-fit">
-      <div className="w-28 h-28 rounded-full overflow-hidden">
+      <div className="w-40 h-40 rounded-full overflow-hidden">
         <img
           className="w-full h-full object-cover"
           src={image || profilePlaceholderImage}
@@ -47,10 +49,14 @@ export default function ProfileImageUpload() {
         />
         <IconButton
           onClick={() => profileUploadRef?.current?.click()}
-          className="w-6 h-6 min-w-6 text-white bg-primary-500 data-[hover=true]:bg-primary-400 border-2 border-white"
+          className="w-8 h-8 min-w-6 text-white bg-primary-500 data-[hover=true]:bg-primary-400 border-2 border-white"
           radius="full"
         >
-          <Edit className="w-3 h-3" />
+          {image ? (
+            <Edit className="w-4 h-4" />
+          ) : (
+            <UploadImage className="w-4 h-4" />
+          )}
         </IconButton>
       </div>
       <ProfileImageCropper
