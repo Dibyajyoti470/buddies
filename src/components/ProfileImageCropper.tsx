@@ -9,22 +9,30 @@ import {
   ModalBody,
   ModalFooter,
   Slider,
+  Tooltip,
 } from "@nextui-org/react";
-import AvatarEditor from "react-avatar-editor";
-import UploadImage from "@/assets/icons/UploadImage";
+import AvatarEditor, { Position } from "react-avatar-editor";
+import { UploadImage } from "@/assets/icons";
+import IconButton from "./IconButton";
+import Reset from "@/assets/icons/Reset";
+import CustomTooltip from "./CustomTooltip";
 
 interface ProfileImageCropperProps {
   image: string;
   isOpen: boolean;
+  coordinates: Position;
+  scale: number;
   onOpen: () => void;
   onOpenChange: (isOpen: boolean) => void;
-  setImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setOriginalImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setCroppedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setCroppingCoordinates: React.Dispatch<React.SetStateAction<Position>>;
+  setCroppingScale: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function ProfileImageCropper(props: ProfileImageCropperProps) {
-  const defaultScale = 1;
-  const [scale, setScale] = useState<number>(defaultScale);
-
+  const [scale, setScale] = useState<number>(props.scale);
+  const [coords, setCoords] = useState<Position>(props.coordinates);
   const editorRef = useRef<AvatarEditor | null>(null);
 
   const handleSliderChange = (value: number) => {
@@ -33,20 +41,24 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
 
   const handleCropConfirm = (onClose: () => void) => {
     if (editorRef.current) {
-      // This returns a HTMLCanvasElement, it can be made into a data URL or a blob,
-      // drawn on another canvas, or added to the DOM.
-      // const canvas = editorRef.current.getImage();
-      // const base64Image = canvas.toDataURL();
-
-      // If you want the image resized to the canvas size (also a HTMLCanvasElement)
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
       const base64Image = canvasScaled.toDataURL();
-      console.log(base64Image);
+      const { x, y } = editorRef.current.getCroppingRect();
 
-      props.setImage(base64Image);
+      props.setOriginalImage(props.image);
+      props.setCroppedImage(base64Image);
+      props.setCroppingCoordinates({ x, y });
+      props.setCroppingScale(scale);
+
       onClose();
-      // props.onClose(base64Image);
     }
+  };
+
+  const handleUploadNewButtonPress = () => {};
+
+  const handleResetButtonPress = () => {
+    setScale(props.scale);
+    setCoords(props.coordinates);
   };
 
   return (
@@ -76,6 +88,8 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                 borderRadius={500}
                 scale={scale}
                 rotate={0}
+                position={{ x: coords.x, y: coords.y }}
+                onPositionChange={(pos) => setCoords(pos)}
               />
               <Slider
                 classNames={{
@@ -86,22 +100,36 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                 maxValue={2}
                 minValue={1}
                 aria-label="Scale image"
-                defaultValue={defaultScale}
+                value={scale}
                 className="max-w-md"
                 onChange={(e) => handleSliderChange(e as number)}
               />
             </ModalBody>
-            <ModalFooter className="justify-between">
-              <Button
-                className="border-1"
-                color="primary"
-                variant="bordered"
-                disableRipple
-                radius="sm"
-              >
-                <UploadImage className="w-5 h-5" />
-                Upload new
-              </Button>
+            <ModalFooter className="justify-between items-center pl-[18px]">
+              <div className="flex flex-row items-center gap-[2px]">
+                <CustomTooltip placement="bottom" content="Upload New">
+                  <Button
+                    isIconOnly
+                    disableRipple
+                    variant="light"
+                    size="sm"
+                    onPress={handleUploadNewButtonPress}
+                  >
+                    <UploadImage className="w-5 h-5" />
+                  </Button>
+                </CustomTooltip>
+                <CustomTooltip placement="bottom" content="Reset">
+                  <Button
+                    isIconOnly
+                    disableRipple
+                    variant="light"
+                    size="sm"
+                    onPress={handleResetButtonPress}
+                  >
+                    <Reset className="w-5 h-5" />
+                  </Button>
+                </CustomTooltip>
+              </div>
               <div className="flex flex-row items-center gap-2">
                 <Button
                   variant="flat"
