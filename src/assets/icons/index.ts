@@ -5,6 +5,7 @@ import Emoji from "./Emoji";
 import Eye from "./Eye";
 import EyeSlash from "./EyeSlash";
 import Logo from "./Logo";
+import Reset from "./Reset";
 import Search from "./Search";
 import Send from "./Send";
 import UploadImage from "./UploadImage";
@@ -17,6 +18,7 @@ export {
   Eye,
   EyeSlash,
   Logo,
+  Reset,
   Search,
   Send,
   UploadImage,

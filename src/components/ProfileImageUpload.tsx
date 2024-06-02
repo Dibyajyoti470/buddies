@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import { Position } from "react-avatar-editor";
 import { Edit, UploadImage } from "@/assets/icons";
@@ -11,14 +11,14 @@ import "./ProfileImageUpload.scss";
 export default function ProfileImageUpload() {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
-  const [croppingScale, setCroppingScale] = useState<number>(1);
-  const [croppingCoordinates, setCroppingCoordinates] = useState<Position>({
+  const [cropperScale, setCropperScale] = useState<number>(1);
+  const [cropperCoordinates, setCropperCoordinates] = useState<Position>({
     x: 0.5,
     y: 0.5,
   });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const profileUploadRef = useRef<HTMLInputElement>(null);
 
+  const profileUploadRef = useRef<HTMLInputElement>(null);
   const profilePlaceholderImage = "/profile-placeholder.jpg";
 
   const getChosenProfileImageUrl = (): string | null => {
@@ -34,6 +34,15 @@ export default function ProfileImageUpload() {
   const handleProfileImageChosen = () => {
     onOpen();
   };
+
+  // useEffect(() => {
+  //   if (originalImage) {
+  //     console.log("changed: ", originalImage);
+  //     if (profileUploadRef && profileUploadRef.current) {
+  //       profileUploadRef.current.value = "";
+  //     }
+  //   }
+  // }, [originalImage]);
 
   return (
     <div className="relative w-fit">
@@ -72,14 +81,14 @@ export default function ProfileImageUpload() {
       <ProfileImageCropper
         image={getChosenProfileImageUrl() || ""}
         isOpen={isOpen}
-        coordinates={croppingCoordinates}
-        scale={croppingScale}
+        coordinates={cropperCoordinates}
+        scale={cropperScale}
         onOpen={onOpen}
         onOpenChange={onOpenChange}
         setOriginalImage={setOriginalImage}
         setCroppedImage={setCroppedImage}
-        setCroppingScale={setCroppingScale}
-        setCroppingCoordinates={setCroppingCoordinates}
+        setCropperScale={setCropperScale}
+        setCropperCoordinates={setCropperCoordinates}
       />
     </div>
   );

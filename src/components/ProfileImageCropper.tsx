@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Modal,
@@ -9,13 +9,10 @@ import {
   ModalBody,
   ModalFooter,
   Slider,
-  Tooltip,
 } from "@nextui-org/react";
 import AvatarEditor, { Position } from "react-avatar-editor";
-import { UploadImage } from "@/assets/icons";
-import IconButton from "./IconButton";
-import Reset from "@/assets/icons/Reset";
 import CustomTooltip from "./CustomTooltip";
+import { Reset, UploadImage } from "@/assets/icons";
 
 interface ProfileImageCropperProps {
   image: string;
@@ -26,14 +23,17 @@ interface ProfileImageCropperProps {
   onOpenChange: (isOpen: boolean) => void;
   setOriginalImage: React.Dispatch<React.SetStateAction<string | null>>;
   setCroppedImage: React.Dispatch<React.SetStateAction<string | null>>;
-  setCroppingCoordinates: React.Dispatch<React.SetStateAction<Position>>;
-  setCroppingScale: React.Dispatch<React.SetStateAction<number>>;
+  setCropperCoordinates: React.Dispatch<React.SetStateAction<Position>>;
+  setCropperScale: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function ProfileImageCropper(props: ProfileImageCropperProps) {
+  const [image, setImage] = useState<string>(props.image);
   const [scale, setScale] = useState<number>(props.scale);
   const [coords, setCoords] = useState<Position>(props.coordinates);
+
   const editorRef = useRef<AvatarEditor | null>(null);
+  const profileUploadNewRef = useRef<HTMLInputElement>(null);
 
   const handleSliderChange = (value: number) => {
     setScale(value);
@@ -47,18 +47,38 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
 
       props.setOriginalImage(props.image);
       props.setCroppedImage(base64Image);
-      props.setCroppingCoordinates({ x, y });
-      props.setCroppingScale(scale);
+      props.setCropperCoordinates({ x, y });
+      props.setCropperScale(scale);
 
+      console.log("calling confirm");
       onClose();
     }
   };
 
-  const handleUploadNewButtonPress = () => {};
+  const handleProfileImageChosen = () => {
+    const files = profileUploadNewRef?.current?.files;
+    if (files && files.length) {
+      const url = URL.createObjectURL(files[0]);
+      setImage(url);
+      resetCropperToDefault();
+    }
+  };
 
-  const handleResetButtonPress = () => {
+  const handleClose = (onClose: () => void) => {
+    setImage(props.image);
+    resetCropperToPreviouslySaved();
+    onClose();
+  };
+
+  const resetCropperToPreviouslySaved = () => {
+    console.log(props.scale, props.coordinates);
     setScale(props.scale);
     setCoords(props.coordinates);
+  };
+
+  const resetCropperToDefault = () => {
+    setScale(1);
+    setCoords({ x: 0.5, y: 0.5 });
   };
 
   return (
@@ -81,7 +101,7 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
             <ModalBody>
               <AvatarEditor
                 ref={editorRef}
-                image={props.image}
+                image={image || props.image}
                 width={400}
                 height={400}
                 border={0}
@@ -107,13 +127,19 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
             </ModalBody>
             <ModalFooter className="justify-between items-center pl-[18px]">
               <div className="flex flex-row items-center gap-[2px]">
+                <input
+                  type="file"
+                  className="hidden"
+                  ref={profileUploadNewRef}
+                  onChange={handleProfileImageChosen}
+                />
                 <CustomTooltip placement="bottom" content="Upload New">
                   <Button
                     isIconOnly
                     disableRipple
                     variant="light"
                     size="sm"
-                    onPress={handleUploadNewButtonPress}
+                    onPress={() => profileUploadNewRef?.current?.click()}
                   >
                     <UploadImage className="w-5 h-5" />
                   </Button>
@@ -124,7 +150,7 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                     disableRipple
                     variant="light"
                     size="sm"
-                    onPress={handleResetButtonPress}
+                    onPress={resetCropperToDefault}
                   >
                     <Reset className="w-5 h-5" />
                   </Button>
@@ -135,7 +161,7 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                   variant="flat"
                   disableRipple
                   radius="sm"
-                  onPress={onClose}
+                  onPress={() => handleClose(onClose)}
                 >
                   Cancel
                 </Button>
