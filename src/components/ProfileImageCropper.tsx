@@ -65,7 +65,6 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
   };
 
   const handleClose = (onClose: () => void) => {
-    setImage(props.image);
     resetCropperToPreviouslySaved();
     onClose();
   };
@@ -80,6 +79,24 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
     setScale(1);
     setCoords({ x: 0.5, y: 0.5 });
   };
+
+  useEffect(() => {
+    if (props.image !== image) {
+      setImage(props.image);
+    }
+  }, [props.image]);
+
+  // useEffect(() => {
+  //   if (props.scale !== scale) {
+  //     setScale(props.scale);
+  //   }
+  // }, [props.scale]);
+
+  // useEffect(() => {
+  //   if (props.coordinates !== coords) {
+  //     setCoords(props.coordinates);
+  //   }
+  // }, [props.coordinates]);
 
   return (
     <Modal

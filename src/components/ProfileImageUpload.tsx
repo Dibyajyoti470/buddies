@@ -35,6 +35,20 @@ export default function ProfileImageUpload() {
     onOpen();
   };
 
+  const handleOpenChange = (isOpen: boolean) => {
+    if (!isOpen) {
+      handleClose();
+    }
+
+    onOpenChange();
+  };
+
+  const handleClose = () => {
+    if (profileUploadRef.current) {
+      profileUploadRef.current.value = "";
+    }
+  };
+
   // useEffect(() => {
   //   if (originalImage) {
   //     console.log("changed: ", originalImage);
@@ -79,12 +93,12 @@ export default function ProfileImageUpload() {
         )}
       </div>
       <ProfileImageCropper
-        image={getChosenProfileImageUrl() || ""}
+        image={originalImage || getChosenProfileImageUrl() || ""}
         isOpen={isOpen}
         coordinates={cropperCoordinates}
         scale={cropperScale}
         onOpen={onOpen}
-        onOpenChange={onOpenChange}
+        onOpenChange={(isOpen) => handleOpenChange(isOpen)}
         setOriginalImage={setOriginalImage}
         setCroppedImage={setCroppedImage}
         setCropperScale={setCropperScale}
