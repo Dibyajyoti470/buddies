@@ -43,14 +43,12 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
     if (editorRef.current) {
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
       const base64Image = canvasScaled.toDataURL();
-      const { x, y } = editorRef.current.getCroppingRect();
 
       props.setOriginalImage(props.image);
       props.setCroppedImage(base64Image);
-      props.setCropperCoordinates({ x, y });
+      props.setCropperCoordinates(coords);
       props.setCropperScale(scale);
 
-      console.log("calling confirm");
       onClose();
     }
   };
@@ -70,7 +68,6 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
   };
 
   const resetCropperToPreviouslySaved = () => {
-    console.log(props.scale, props.coordinates);
     setScale(props.scale);
     setCoords(props.coordinates);
   };
