@@ -40,10 +40,10 @@ export function getBase64Image(file: File): Promise<string> {
   });
 }
 
-export function generateProfileImageFileName(userID: string): string {
+export function generateProfileImageFileName(type: "jpg" | "png"): string {
   const timestamp = new Date()
     .toISOString()
     .replace(/[-:]/g, "")
     .replace(/\..+/, "");
-  return `profile_${timestamp}.jpg`;
+  return `profile_${timestamp}.${type}`;
 }

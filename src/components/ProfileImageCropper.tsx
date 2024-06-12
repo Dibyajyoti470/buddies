@@ -53,7 +53,7 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
       canvasScaled.toBlob((blob) => {
         console.log("confirmed: ", blob);
         if (blob) {
-          const profileImageName = generateProfileImageFileName("123abc");
+          const profileImageName = generateProfileImageFileName("jpg");
           const file = new File([blob], profileImageName, {
             type: "image/jpeg",
           });
