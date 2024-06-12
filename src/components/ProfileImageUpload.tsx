@@ -49,15 +49,6 @@ export default function ProfileImageUpload() {
     }
   };
 
-  // useEffect(() => {
-  //   if (originalImage) {
-  //     console.log("changed: ", originalImage);
-  //     if (profileUploadRef && profileUploadRef.current) {
-  //       profileUploadRef.current.value = "";
-  //     }
-  //   }
-  // }, [originalImage]);
-
   return (
     <div className="relative w-fit">
       <div className="w-40 h-40 rounded-full overflow-hidden">
@@ -71,6 +62,7 @@ export default function ProfileImageUpload() {
         <input
           type="file"
           className="hidden"
+          accept="image/*"
           ref={profileUploadRef}
           onChange={handleProfileImageChosen}
         />

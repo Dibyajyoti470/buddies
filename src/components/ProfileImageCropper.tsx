@@ -13,6 +13,7 @@ import {
 import AvatarEditor, { Position } from "react-avatar-editor";
 import CustomTooltip from "./CustomTooltip";
 import { Reset, UploadImage } from "@/assets/icons";
+import { generateProfileImageFileName } from "@/utils";
 
 interface ProfileImageCropperProps {
   image: string;
@@ -35,16 +36,32 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
   const editorRef = useRef<AvatarEditor | null>(null);
   const profileUploadNewRef = useRef<HTMLInputElement>(null);
 
+  const initCropper = () => {
+    setImage(props.image);
+    setScale(props.scale);
+    setCoords(props.coordinates);
+  };
+
   const handleSliderChange = (value: number) => {
     setScale(value);
   };
 
-  const handleCropConfirm = (onClose: () => void) => {
+  const handleCropConfirm = (originalImage: string, onClose: () => void) => {
     if (editorRef.current) {
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
-      const base64Image = canvasScaled.toDataURL();
+      const base64Image = canvasScaled.toDataURL("image/jpeg");
+      canvasScaled.toBlob((blob) => {
+        console.log("confirmed: ", blob);
+        if (blob) {
+          const profileImageName = generateProfileImageFileName("123abc");
+          const file = new File([blob], profileImageName, {
+            type: "image/jpeg",
+          });
+          console.log("uploaded file: ", file);
+        }
+      });
 
-      props.setOriginalImage(props.image);
+      props.setOriginalImage(originalImage);
       props.setCroppedImage(base64Image);
       props.setCropperCoordinates(coords);
       props.setCropperScale(scale);
@@ -53,7 +70,7 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
     }
   };
 
-  const handleProfileImageChosen = () => {
+  const handleNewProfileImageChosen = () => {
     const files = profileUploadNewRef?.current?.files;
     if (files && files.length) {
       const url = URL.createObjectURL(files[0]);
@@ -68,8 +85,7 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
   };
 
   const resetCropperToPreviouslySaved = () => {
-    setScale(props.scale);
-    setCoords(props.coordinates);
+    initCropper();
   };
 
   const resetCropperToDefault = () => {
@@ -78,22 +94,10 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
   };
 
   useEffect(() => {
-    if (props.image !== image) {
-      setImage(props.image);
+    if (props.isOpen) {
+      initCropper();
     }
-  }, [props.image]);
-
-  // useEffect(() => {
-  //   if (props.scale !== scale) {
-  //     setScale(props.scale);
-  //   }
-  // }, [props.scale]);
-
-  // useEffect(() => {
-  //   if (props.coordinates !== coords) {
-  //     setCoords(props.coordinates);
-  //   }
-  // }, [props.coordinates]);
+  }, [props.isOpen]);
 
   return (
     <Modal
@@ -144,8 +148,9 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                 <input
                   type="file"
                   className="hidden"
+                  accept="image/*"
                   ref={profileUploadNewRef}
-                  onChange={handleProfileImageChosen}
+                  onChange={handleNewProfileImageChosen}
                 />
                 <CustomTooltip placement="bottom" content="Upload New">
                   <Button
@@ -183,7 +188,7 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
                   color="primary"
                   disableRipple
                   radius="sm"
-                  onPress={() => handleCropConfirm(onClose)}
+                  onPress={() => handleCropConfirm(image, onClose)}
                 >
                   Confirm
                 </Button>
