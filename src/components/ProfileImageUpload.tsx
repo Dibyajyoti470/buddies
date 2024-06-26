@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDisclosure } from "@nextui-org/react";
 import { Position } from "react-avatar-editor";
 import { Edit, UploadImage } from "@/assets/icons";
@@ -8,14 +8,25 @@ import IconButton from "./IconButton";
 import ProfileImageCropper from "./ProfileImageCropper";
 import "./ProfileImageUpload.scss";
 
-export default function ProfileImageUpload() {
-  const [originalImage, setOriginalImage] = useState<string | null>(null);
-  const [croppedImage, setCroppedImage] = useState<string | null>(null);
-  const [cropperScale, setCropperScale] = useState<number>(1);
-  const [cropperCoordinates, setCropperCoordinates] = useState<Position>({
-    x: 0.5,
-    y: 0.5,
-  });
+interface ProfileImageUploadProps {
+  originalImage: string | null;
+  croppedImage: string | null;
+  cropperScale: number;
+  cropperCoordinates: Position;
+  setOriginalImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setCroppedImage: React.Dispatch<React.SetStateAction<string | null>>;
+  setCropperScale: React.Dispatch<React.SetStateAction<number>>;
+  setCropperCoordinates: React.Dispatch<React.SetStateAction<Position>>;
+}
+
+export default function ProfileImageUpload(props: ProfileImageUploadProps) {
+  // const [originalImage, setOriginalImage] = useState<string | null>(null);
+  // const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  // const [cropperScale, setCropperScale] = useState<number>(1);
+  // const [cropperCoordinates, setCropperCoordinates] = useState<Position>({
+  //   x: 0.5,
+  //   y: 0.5,
+  // });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const profileUploadRef = useRef<HTMLInputElement>(null);
@@ -54,7 +65,7 @@ export default function ProfileImageUpload() {
       <div className="w-40 h-40 rounded-full overflow-hidden">
         <img
           className="w-full h-full object-cover"
-          src={croppedImage || profilePlaceholderImage}
+          src={props.croppedImage || profilePlaceholderImage}
           alt="Avatar Image"
         />
       </div>
@@ -66,7 +77,7 @@ export default function ProfileImageUpload() {
           ref={profileUploadRef}
           onChange={handleProfileImageChosen}
         />
-        {croppedImage ? (
+        {props.croppedImage ? (
           <IconButton
             onClick={onOpen}
             className="w-8 h-8 min-w-6 text-white bg-primary-500 data-[hover=true]:bg-primary-400 border-2 border-white"
@@ -85,16 +96,16 @@ export default function ProfileImageUpload() {
         )}
       </div>
       <ProfileImageCropper
-        image={originalImage || getChosenProfileImageUrl() || ""}
+        image={props.originalImage || getChosenProfileImageUrl() || ""}
         isOpen={isOpen}
-        coordinates={cropperCoordinates}
-        scale={cropperScale}
+        coordinates={props.cropperCoordinates}
+        scale={props.cropperScale}
         onOpen={onOpen}
         onOpenChange={(isOpen) => handleOpenChange(isOpen)}
-        setOriginalImage={setOriginalImage}
-        setCroppedImage={setCroppedImage}
-        setCropperScale={setCropperScale}
-        setCropperCoordinates={setCropperCoordinates}
+        setOriginalImage={props.setOriginalImage}
+        setCroppedImage={props.setCroppedImage}
+        setCropperScale={props.setCropperScale}
+        setCropperCoordinates={props.setCropperCoordinates}
       />
     </div>
   );

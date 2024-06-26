@@ -58,13 +58,18 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
             type: "image/jpeg",
           });
           console.log("uploaded file: ", file);
+
+          props.setOriginalImage(originalImage);
+          props.setCroppedImage(base64Image);
+          props.setCropperCoordinates(coords);
+          props.setCropperScale(scale);
         }
       });
 
-      props.setOriginalImage(originalImage);
-      props.setCroppedImage(base64Image);
-      props.setCropperCoordinates(coords);
-      props.setCropperScale(scale);
+      // props.setOriginalImage(originalImage);
+      // props.setCroppedImage(base64Image);
+      // props.setCropperCoordinates(coords);
+      // props.setCropperScale(scale);
 
       onClose();
     }
