@@ -49,27 +49,27 @@ export default function ProfileImageCropper(props: ProfileImageCropperProps) {
   const handleCropConfirm = (originalImage: string, onClose: () => void) => {
     if (editorRef.current) {
       const canvasScaled = editorRef.current.getImageScaledToCanvas();
-      const base64Image = canvasScaled.toDataURL("image/jpeg");
-      canvasScaled.toBlob((blob) => {
-        console.log("confirmed: ", blob);
-        if (blob) {
-          const profileImageName = generateProfileImageFileName("jpg");
-          const file = new File([blob], profileImageName, {
-            type: "image/jpeg",
-          });
-          console.log("uploaded file: ", file);
+      const croppedImage = canvasScaled.toDataURL("image/jpeg");
 
-          props.setOriginalImage(originalImage);
-          props.setCroppedImage(base64Image);
-          props.setCropperCoordinates(coords);
-          props.setCropperScale(scale);
-        }
-      });
+      // canvasScaled.toBlob((blob) => {
+      //   if (blob) {
+      //     const profileImageName = generateProfileImageFileName("jpg");
+      //     const file = new File([blob], profileImageName, {
+      //       type: "image/jpeg",
+      //     });
+      //     console.log("uploaded file: ", file);
 
-      // props.setOriginalImage(originalImage);
-      // props.setCroppedImage(base64Image);
-      // props.setCropperCoordinates(coords);
-      // props.setCropperScale(scale);
+      //     props.setOriginalImage(originalImage);
+      //     props.setCroppedImage(croppedImage);
+      //     props.setCropperCoordinates(coords);
+      //     props.setCropperScale(scale);
+      //   }
+      // });
+
+      props.setOriginalImage(originalImage);
+      props.setCroppedImage(croppedImage);
+      props.setCropperCoordinates(coords);
+      props.setCropperScale(scale);
 
       onClose();
     }

@@ -24,21 +24,22 @@ export default function CreateAccount() {
     setIsLoading(true);
 
     try {
-      // const userCredentials = await createUserWithEmailAndPassword(
-      //   auth,
-      //   email,
-      //   password
-      // );
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredentials.user;
 
-      // await setDoc(doc(db, "users", userCredentials.user.uid), {
-      //   id: userCredentials.user.uid,
-      //   name: username,
-      //   email,
-      //   blocked: [],
-      // });
+      await setDoc(doc(db, "users", user.uid), {
+        id: user.uid,
+        name: "",
+        email,
+        blocked: [],
+      });
 
-      // notify("Your account has been successfully created.");
-      router.push("/setup-profile/123abc");
+      notify("Your account has been successfully created.");
+      router.push(`/setup-profile/${user.uid}`);
     } catch (error) {
       console.log(error);
       notify("Something went wrong! Please try again later.");

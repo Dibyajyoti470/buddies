@@ -31,13 +31,19 @@ export function cn(...inputs: ClassValue[]): string {
   return twMerge(clsx(inputs));
 }
 
-export function getBase64Image(file: File): Promise<string> {
+export function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = (error) => reject(error);
   });
+}
+
+export async function objectURLToFile(objectURL: string, filename: string) {
+  const response = await fetch(objectURL);
+  const blob = await response.blob();
+  return new File([blob], filename, { type: blob.type });
 }
 
 export function generateProfileImageFileName(
