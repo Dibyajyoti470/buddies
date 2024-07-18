@@ -50,7 +50,7 @@ export default function CreateAccount() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold">Create account</h1>
+      <h1 className="text-2xl font-medium">Create account</h1>
       <form className="flex flex-col gap-5 mt-3" onSubmit={handleCreateAccount}>
         {/* <InputField
           isRequired

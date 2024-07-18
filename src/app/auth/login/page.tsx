@@ -37,7 +37,7 @@ export default function Login() {
 
   return (
     <>
-      <h1 className="text-2xl font-semibold">Welcome</h1>
+      <h1 className="text-2xl font-medium">Welcome</h1>
       <form className="flex flex-col gap-5 mt-3" onSubmit={handleLogin}>
         <InputField
           isRequired

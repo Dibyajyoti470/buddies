@@ -18,14 +18,19 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage();
 
+export const profileImageFileName = {
+  ORIGINAL: "profile_original.jpg",
+  CROPPED: "profile_cropped.jpg",
+};
+
 export function getProfileImageRefs(userId: string) {
   const originalImageRef = ref(
     storage,
-    `profile_images/${userId}/profile_original.jpg`
+    `profile_images/${userId}/${profileImageFileName.ORIGINAL}`
   );
   const croppedImageRef = ref(
     storage,
-    `profile_images/${userId}/profile_cropped.jpg`
+    `profile_images/${userId}/${profileImageFileName.CROPPED}`
   );
 
   return { originalImageRef, croppedImageRef };

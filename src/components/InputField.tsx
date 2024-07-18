@@ -16,7 +16,7 @@ export default function InputField(props: any) {
       variant="bordered"
       radius="sm"
       classNames={{
-        label: "font-semibold",
+        label: "font-medium",
         inputWrapper: "border",
         input: "h-auto",
       }}
