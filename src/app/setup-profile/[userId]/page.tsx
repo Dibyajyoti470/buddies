@@ -42,40 +42,44 @@ export default function Page({ params }: { params: { userId: string } }) {
         name: username,
       };
 
-      if (originalImage && croppedImage) {
-        const [originalImageFile, croppedImageFile] = await Promise.all([
-          objectURLToFile(originalImage, profileImageFileName.ORIGINAL),
-          objectURLToFile(croppedImage, profileImageFileName.CROPPED),
-        ]);
-
-        if (!originalImageFile || !croppedImageFile) {
-          throw new Error("Failed to convert images to files");
-        }
-
-        const { originalImageRef, croppedImageRef } = getProfileImageRefs(uid);
-
-        const [originalImageUploadRes, croppedImageUploadRes] =
-          await Promise.all([
-            uploadBytes(originalImageRef, originalImageFile),
-            uploadBytes(croppedImageRef, croppedImageFile),
-          ]);
-
-        if (!originalImageUploadRes || !croppedImageUploadRes) {
-          throw new Error("Failed to upload images");
-        }
-
-        const originalImageUrl = originalImageUploadRes.metadata.fullPath;
-        const croppedImageUrl = croppedImageUploadRes.metadata.fullPath;
-
-        updateData.profile = {
-          originalImageUrl,
-          croppedImageUrl,
-          cropper: {
-            scale: cropperScale,
-            coordinates: cropperCoordinates,
-          },
-        };
+      if (!originalImage || !croppedImage) {
+        throw new Error("Images not available!");
+        return;
       }
+
+      const [originalImageFile, croppedImageFile] = await Promise.all([
+        objectURLToFile(originalImage, profileImageFileName.ORIGINAL),
+        objectURLToFile(croppedImage, profileImageFileName.CROPPED),
+      ]);
+
+      if (!originalImageFile || !croppedImageFile) {
+        throw new Error("Failed to convert images to files");
+      }
+
+      const { originalImageRef, croppedImageRef } = getProfileImageRefs(uid);
+
+      const [originalImageUploadRes, croppedImageUploadRes] = await Promise.all(
+        [
+          uploadBytes(originalImageRef, originalImageFile),
+          uploadBytes(croppedImageRef, croppedImageFile),
+        ]
+      );
+
+      if (!originalImageUploadRes || !croppedImageUploadRes) {
+        throw new Error("Failed to upload images");
+      }
+
+      const originalImageUrl = originalImageUploadRes.metadata.fullPath;
+      const croppedImageUrl = croppedImageUploadRes.metadata.fullPath;
+
+      updateData.profile = {
+        originalImageUrl,
+        croppedImageUrl,
+        cropper: {
+          scale: cropperScale,
+          coordinates: cropperCoordinates,
+        },
+      };
 
       const userDocRef = doc(db, "users", uid);
       await updateDoc(userDocRef, updateData);

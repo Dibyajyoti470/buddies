@@ -3,6 +3,7 @@ import Chats from "@/components/Chats";
 import { auth } from "@/firebase";
 import { Button } from "@nextui-org/react";
 import EllipsisVertical from "@/assets/icons/EllipsisVertical";
+import EllipsisHorizontal from "@/assets/icons/EllipsisHorizontal";
 import Logo from "@/assets/icons/Logo";
 import Search from "@/assets/icons/Search";
 
@@ -25,7 +26,8 @@ export default function Sidebar() {
             size="sm"
             className="-mr-3"
           >
-            <EllipsisVertical className="w-4 h-4 fill-gray-600" />
+            <EllipsisHorizontal className="w-4 h-4 fill-gray-600" />
+            {/* <EllipsisVertical className="w-4 h-4 fill-gray-600" /> */}
           </Button>
         </div>
       </div>

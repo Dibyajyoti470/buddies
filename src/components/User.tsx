@@ -25,8 +25,8 @@ export default function User(props: UserComponentProps) {
       <Avatar imageUrl={profileImageUrl} isActive={isActive} />
       <div className="flex flex-col flex-1 justify-center gap-1 truncate">
         <div className="flex justify-between gap-2 leading-tight">
-          <span className="text-sm font-semibold truncate">{name}</span>
-          <span className="text-xs font-medium text-gray-500">
+          <span className="text-sm font-medium truncate">{name}</span>
+          <span className="text-[10px] font-normal text-gray-500">
             {location === locations.SIDE_PANEL && lastChatTime}
           </span>
         </div>
@@ -41,7 +41,7 @@ export default function User(props: UserComponentProps) {
               Typing...{" "}
             </span>
           ) : (
-            <span className="w-[90%] text-xs text-gray-500 font-medium truncate">
+            <span className="w-[90%] text-xs text-gray-500 font-normal truncate">
               {location === locations.SIDE_PANEL
                 ? lastMessage
                 : location === locations.CHATAREA_HEADER
